@@ -8,6 +8,8 @@
 #include "dataset_creation.hxx"
 #include "undirected_graph.hxx"
 
+// #define DEBUG
+
 std::string output_path = "/home/cse/Desktop/";
 
 std::string get_filename(const std::string path) {
@@ -39,6 +41,17 @@ int main(int argc, char* argv[]) {
     std::string delete_file_name;
     dataset_creation data(G);
     
+    #ifdef DEBUG
+        for(int i = 0; i < G.numEdges/2; ++i) {
+            std::cout << G.src[i] <<" " << G.dest[i] << "\n";
+        }
+
+        std::string output_file = "/home/cse/Desktop/cs22s501/spanning_tree/dataset_creation/ipdps_batch_0.txt";
+            std::cout << "Output file path: " << output_file << "\n\n";
+            data.insert_tree_edges(5);
+            data.write(10, 5, output_file);
+    #endif
+
     // Define the ranges and iterations for each set
     std::vector<int> totals = {100, 1000, 10000, 100000};
     std::vector<std::vector<int>> counts = {
@@ -47,6 +60,14 @@ int main(int argc, char* argv[]) {
         {10, 100, 500, 1000, 5000, 10000}, // For 10000
         {10, 100, 500, 1000, 5000, 10000, 20000, 50000, 100000} // For 100000
     };
+
+    // Define the ranges and iterations for each set
+    // std::vector<int> totals = {100, 1000, 10000};
+    // std::vector<std::vector<int>> counts = {
+    //     {5, 10, 50, 100},         // For 100
+    //     {10, 100, 500, 1000},     // For 1000
+    //     {10, 100, 500, 1000, 5000, 10000}, // For 10000
+    // };
 
     // Outer loop for 5 iterations as per requirement
     for(int i = 0; i < 5; ++i) {

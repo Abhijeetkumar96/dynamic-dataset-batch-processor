@@ -124,10 +124,17 @@ private:
         inFile >> numVert >> numEdges;
 
         std::vector<std::vector<int>> adjlist(numVert);
+        src.reserve(numEdges / 2);
+        dest.reserve(numEdges / 2);
+        
         int u, v;
         for(long i = 0; i < numEdges; ++i) {
             inFile >> u >> v;
             adjlist[u].push_back(v);
+            if(u < v) {
+                src.push_back(u);
+                dest.push_back(v);
+            }
         }
 
         createCSR(adjlist);  

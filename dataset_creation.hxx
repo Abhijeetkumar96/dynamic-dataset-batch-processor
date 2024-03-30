@@ -17,7 +17,9 @@ class dataset_creation {
     std::vector<std::pair<int, int>> nonTreeEdges;
 
 	public:
-	    dataset_creation(undirected_graph& graph_instance): g(graph_instance) { non_tree_edges_identify(); }
+	    dataset_creation(undirected_graph& graph_instance): g(graph_instance) { 
+            non_tree_edges_identify(); 
+        }
 		
 		void insert_tree_edges(int);
     	void non_tree_edges_identify();
@@ -28,7 +30,7 @@ void dataset_creation::insert_tree_edges(int num_tree_edges_del) {
 
     // Extract all the edges excluding the root
     for (int i = 0; i < g.numVert; ++i) {
-       if (i != g.parent[i] and g.degrees[i] > g.avg_out_degree) {
+       if (i != g.parent[i]) {  // and g.degrees[i] > g.avg_out_degree
             tree_edges.push_back({i, g.parent[i]});
         }
     }
@@ -44,12 +46,14 @@ void dataset_creation::insert_tree_edges(int num_tree_edges_del) {
 
 void dataset_creation::non_tree_edges_identify() {
    
-    for(long i = 0; i < g.numEdges; ++i) {
+    for(long i = 0; i < g.numEdges / 2; ++i) {
         int u = g.src[i];
         int v = g.dest[i];
+        // std::cout << "u: " << u <<" & v: " << v << std::endl;
+        // std::cout <<"parent[u]: " << g.parent[u] << "parent[v]: " << g.parent[v] << std::endl; 
         // Check if it's a non-tree edge
         if(g.parent[u] != v and g.parent[v] != u) {
-            nonTreeEdges.emplace_back(u, v);
+            nonTreeEdges.push_back(std::make_pair(u, v));
         }
     }
 }
@@ -77,7 +81,7 @@ void dataset_creation::write(int total_edges, int num_tree_edges_del, const std:
     int numSelect = total_edges - num_tree_edges_del;
 
     for(int i = 0; i < numSelect; ++i) {
-        std::cout << "Selected non-tree edge: (" << nonTreeEdges[i].first << ", " << nonTreeEdges[i].second << ")" << std::endl;
+        // std::cout << "Selected non-tree edge: (" << nonTreeEdges[i].first << ", " << nonTreeEdges[i].second << ")" << std::endl;
         outputFile << nonTreeEdges[i].first << " " << nonTreeEdges[i].second <<"\n";
     }
 
