@@ -1,4 +1,7 @@
-// g++ -std=c++17 -O3 main.cxx -o main
+/**
+ * To compile this program, use the following command:
+ * g++ -std=c++17 -o my_program main.cxx -O3
+ */
 
 #include <iostream>
 #include <vector>
